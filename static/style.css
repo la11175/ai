@@ -1,0 +1,267 @@
+/* =========================
+   整個網頁
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    font-family:
+        Arial,
+        "Microsoft JhengHei",
+        sans-serif;
+
+    background-color: #0f3658;
+
+    color: #c63939;
+}
+
+
+
+/* =========================
+   主要內容
+========================= */
+
+.container {
+
+    width: 90%;
+
+    max-width: 850px;
+
+    margin: 45px auto;
+
+}
+
+
+
+/* =========================
+   標題
+========================= */
+
+h1 {
+
+    text-align: center;
+
+    color: #16b5d2;
+
+    margin-bottom: 10px;
+
+}
+
+
+.description {
+
+    text-align: center;
+
+    color: #2cddf1;
+
+    margin-bottom: 30px;
+
+}
+
+
+
+/* =========================
+   選擇主題區
+========================= */
+
+.topic-box {
+
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 25px;
+
+}
+
+
+.topic-box h2 {
+
+    color: #2d3b6b;
+
+    margin-top: 0;
+
+}
+
+
+
+/* =========================
+   選項
+========================= */
+
+.topic-box label {
+
+    display: inline-block;
+
+    margin-right: 25px;
+
+    margin-bottom: 20px;
+
+    cursor: pointer;
+
+}
+
+
+.topic-box input[type="radio"] {
+
+    margin-right: 6px;
+
+    cursor: pointer;
+
+}
+
+
+
+/* =========================
+   按鈕
+========================= */
+
+.main-btn {
+
+    display: block;
+
+    margin: 10px auto 0;
+
+    padding: 12px 32px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #35abe2;
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+}
+
+
+.main-btn:hover {
+
+    background-color: #44377e;
+
+}
+
+
+
+/* =========================
+   AI 卡片
+========================= */
+
+.card {
+
+    background-color: white;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 12px
+        rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 25px;
+
+}
+
+
+.card h2 {
+
+    color: #3a337e;
+
+    margin-top: 0;
+
+}
+
+
+
+/* =========================
+   AI 題目
+========================= */
+
+.question {
+
+    background-color: #f4faf6;
+
+    border-left:
+        5px solid #dc3030;
+
+    padding: 18px;
+
+    border-radius: 6px;
+
+    line-height: 1.8;
+
+}
+
+
+
+/* =========================
+   AI 回饋
+========================= */
+
+.feedback {
+
+    background-color: #fff9e8;
+
+    border-left:
+        5px solid #d83e3e;
+
+    padding: 18px;
+
+    border-radius: 6px;
+
+    line-height: 1.8;
+
+}
+
+
+
+/* =========================
+   手機版
+========================= */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width: 92%;
+
+        margin: 25px auto;
+
+    }
+
+
+    .topic-box label {
+
+        display: block;
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .main-btn {
+
+        width: 100%;
+
+    }
+
+}

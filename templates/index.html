@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI 程式練習助手</title>
+
+    <!-- 連接 Flask 的 CSS -->
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <!-- 網頁標題 -->
+        <h1>AI 程式練習助手</h1>
+
+        <p class="description">
+            選擇一個你想練習的程式設計主題，讓 AI 幫你出題！
+        </p>
+
+
+        <!-- 選擇主題 -->
+        <div class="topic-box">
+
+            <h2>選擇學習主題</h2>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="topic"
+                    value="輸入輸出">
+
+                輸入輸出
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="topic"
+                    value="條件判斷">
+
+                條件判斷
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="topic"
+                    value="迴圈">
+
+                迴圈
+            </label>
+
+
+            <label>
+                <input
+                    type="radio"
+                    name="topic"
+                    value="串列">
+
+                串列
+            </label>
+
+
+            <!-- 出題按鈕 -->
+            <button
+                id="questionBtn"
+                class="main-btn"
+                type="button">
+
+                幫我出題
+
+            </button>
+
+        </div>
+
+
+
+        <!-- AI 出題 -->
+        <div class="card">
+
+            <h2>🤖 AI 出題</h2>
+
+            <div
+                id="question"
+                class="question">
+
+                請先選擇上面的學習主題，
+                再按「幫我出題」。
+
+            </div>
+
+        </div>
+
+
+
+        <!-- AI 回饋 -->
+        <div class="card">
+
+            <h2>💡 AI 回饋</h2>
+
+            <div
+                id="feedback"
+                class="feedback">
+
+                選擇主題後，
+                這裡會顯示 AI 的學習提示。
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+    <script>
+
+        /*
+         * 不同主題的題目
+         */
+        const questionBank = {
+
+            "輸入輸出": [
+
+                "請寫一個程式，讓使用者輸入姓名，並輸出「你好，XXX！」。",
+
+                "請讓使用者輸入兩個數字，並輸出兩個數字的總和。",
+
+                "請讓使用者輸入自己的年齡，並把年齡輸出在畫面上。"
+
+            ],
+
+
+            "條件判斷": [
+
+                "請讓使用者輸入一個數字，判斷這個數字是正數、負數還是 0。",
+
+                "請讓使用者輸入成績，如果成績大於等於 60 分，就輸出「及格」，否則輸出「不及格」。",
+
+                "請讓使用者輸入年齡，如果年齡大於等於 18 歲，就輸出「成年」，否則輸出「未成年」。"
+
+            ],
+
+
+            "迴圈": [
+
+                "請使用迴圈輸出 1 到 10 的數字。",
+
+                "請使用迴圈計算 1 到 100 的總和。",
+
+                "請使用迴圈輸出 1 到 20 之間的偶數。"
+
+            ],
+
+
+            "串列": [
+
+                "請建立一個包含 5 個水果名稱的串列，並把所有水果輸出。",
+
+                "請建立一個數字串列，並找出其中最大的數字。",
+
+                "請建立一個包含 5 個數字的串列，並計算所有數字的總和。"
+
+            ]
+
+        };
+
+
+
+        /*
+         * AI 回饋
+         */
+        const feedbackBank = {
+
+            "輸入輸出":
+                "提示：可以先使用 input 取得使用者輸入，再使用 print 輸出結果。",
+
+
+            "條件判斷":
+                "提示：可以使用 if、elif、else 來判斷不同的條件。",
+
+
+            "迴圈":
+                "提示：可以使用 for 或 while 迴圈重複執行程式。",
+
+
+            "串列":
+                "提示：可以使用 list 儲存多個資料，也可以搭配 for 迴圈逐一處理。"
+
+        };
+
+
+
+        /*
+         * 找到按鈕
+         */
+        const questionBtn =
+            document.getElementById("questionBtn");
+
+
+
+        /*
+         * 按下「幫我出題」
+         */
+        questionBtn.addEventListener("click", function () {
+
+
+            /*
+             * 找出使用者選擇的主題
+             */
+            const selectedTopic =
+                document.querySelector(
+                    'input[name="topic"]:checked'
+                );
+
+
+
+            /*
+             * 如果沒有選擇主題
+             */
+            if (!selectedTopic) {
+
+                document.getElementById("question").innerHTML =
+                    "⚠️ 請先選擇一個學習主題！";
+
+
+                document.getElementById("feedback").innerHTML =
+                    "請從上面的四個主題中選擇一個。";
+
+
+                return;
+            }
+
+
+
+            /*
+             * 取得主題
+             */
+            const topic =
+                selectedTopic.value;
+
+
+
+            /*
+             * 取得這個主題的題目
+             */
+            const questions =
+                questionBank[topic];
+
+
+
+            /*
+             * 隨機選擇題目
+             */
+            const randomIndex =
+                Math.floor(
+                    Math.random() * questions.length
+                );
+
+
+
+            const randomQuestion =
+                questions[randomIndex];
+
+
+
+            /*
+             * 顯示題目
+             */
+            document.getElementById("question").innerHTML =
+                "<strong>主題：</strong>" +
+                topic +
+                "<br><br>" +
+                randomQuestion;
+
+
+
+            /*
+             * 顯示 AI 回饋
+             */
+            document.getElementById("feedback").innerHTML =
+                feedbackBank[topic];
+
+        });
+
+    </script>
+
+</body>
+
+</html>
