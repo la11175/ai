@@ -10,7 +10,7 @@
     <title>AI 程式練習助手</title>
 
     <!-- 連接 Flask 的 CSS -->
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 
@@ -27,6 +27,7 @@
 
 
         <!-- 選擇主題 -->
+    <form method="POST">
         <div class="topic-box">
 
             <h2>選擇學習主題</h2>
@@ -76,16 +77,19 @@
             <button
                 id="questionBtn"
                 class="main-btn"
-                type="button">
-
+                type="submit"
+                name="action"
+                value="generate">
                 幫我出題
 
             </button>
+<p>目前選擇的主題：{{ topic }}</p>
 
         </div>
 
 
 
+        <!-- AI 出題 -->
         <!-- AI 出題 -->
         <div class="card">
 
@@ -95,12 +99,37 @@
                 id="question"
                 class="question">
 
-                請先選擇上面的學習主題，
-                再按「幫我出題」。
+                {{ question_text }}
 
             </div>
 
-        </div>
+            <!-- 把表單放進同一個 card 裡面 -->
+            {% if topic == "輸入輸出" %}
+            <form method="POST">
+                <input type="hidden" name="topic" value="{{ topic }}">
+                
+                <label>
+                    <input type="radio" name="student_answer" value="A">
+                    A. input()
+                </label>
+                <label>
+                    <input type="radio" name="student_answer" value="B">
+                    B. print()
+                </label>
+                <label>
+                    <input type="radio" name="student_answer" value="C">
+                    C. len()
+                </label>
+                <label>
+                    <input type="radio" name="student_answer" value="D">
+                    D. range()
+                </label>
+
+                <button type="submit" class="min-btn" name="action" value="check">提交答案</button>
+            </form>
+            {% endif %}
+
+        </div> <!-- 這裡放卡片的結束標籤 -->
 
 
 
@@ -113,8 +142,11 @@
                 id="feedback"
                 class="feedback">
 
-                選擇主題後，
-                這裡會顯示 AI 的學習提示。
+                {% if feedback %}
+                    <p>{{ feedback }}</p>
+                {% else %}
+                    選擇主題後，這裡會顯示 AI 的學習提示。
+                {% endif %}
 
             </div>
 
