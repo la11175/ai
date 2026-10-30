@@ -1,267 +1,68 @@
-/* =========================
-   整個網頁
-========================= */
-
-* {
-    box-sizing: border-box;
-}
-
-
+/* 全域與背景設定 */
 body {
-
+    background-color: #e8f7f5;
+    font-family: Arial, "Microsoft JhengHei", sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
     margin: 0;
-
-    padding: 0;
-
-    font-family:
-        Arial,
-        "Microsoft JhengHei",
-        sans-serif;
-
-    background-color: #0f3658;
-
-    color: #c63939;
 }
 
-
-
-/* =========================
-   主要內容
-========================= */
-
+/* 主要白框容器 */
 .container {
-
-    width: 90%;
-
-    max-width: 850px;
-
-    margin: 45px auto;
-
+    background-color: #ffffff;
+    max-width: 700px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-
-
-/* =========================
-   標題
-========================= */
-
+/* 標題顏色 */
 h1 {
-
+    color: #00897b;
     text-align: center;
-
-    color: #16b5d2;
-
-    margin-bottom: 10px;
-
 }
 
-
-.description {
-
-    text-align: center;
-
-    color: #2cddf1;
-
-    margin-bottom: 30px;
-
+h3 {
+    color: #00897b;
 }
 
-
-
-/* =========================
-   選擇主題區
-========================= */
-
-.topic-box {
-
-    background-color: white;
-
-    padding: 25px;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 4px 12px
-        rgba(0, 0, 0, 0.08);
-
-    margin-bottom: 25px;
-
-}
-
-
-.topic-box h2 {
-
-    color: #2d3b6b;
-
-    margin-top: 0;
-
-}
-
-
-
-/* =========================
-   選項
-========================= */
-
-.topic-box label {
-
-    display: inline-block;
-
-    margin-right: 25px;
-
-    margin-bottom: 20px;
-
-    cursor: pointer;
-
-}
-
-
-.topic-box input[type="radio"] {
-
-    margin-right: 6px;
-
-    cursor: pointer;
-
-}
-
-
-
-/* =========================
-   按鈕
-========================= */
-
-.main-btn {
-
-    display: block;
-
-    margin: 10px auto 0;
-
-    padding: 12px 32px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #35abe2;
-
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
-
-}
-
-
-.main-btn:hover {
-
-    background-color: #44377e;
-
-}
-
-
-
-/* =========================
-   AI 卡片
-========================= */
-
+/* AI 出題與回饋區塊卡片 */
 .card {
-
-    background-color: white;
-
-    padding: 25px;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 4px 12px
-        rgba(0, 0, 0, 0.08);
-
-    margin-bottom: 25px;
-
+    background-color: #f0fbf9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
-
-.card h2 {
-
-    color: #3a337e;
-
-    margin-top: 0;
-
+/* 按鈕樣式 */
+.btn {
+    background-color: #12b39d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-
-
-/* =========================
-   AI 題目
-========================= */
-
-.question {
-
-    background-color: #f4faf6;
-
-    border-left:
-        5px solid #dc3030;
-
-    padding: 18px;
-
-    border-radius: 6px;
-
-    line-height: 1.8;
-
+.btn:hover {
+    background-color: #0e9683;
 }
 
-
-
-/* =========================
-   AI 回饋
-========================= */
-
-.feedback {
-
-    background-color: #fff9e8;
-
-    border-left:
-        5px solid #d83e3e;
-
-    padding: 18px;
-
-    border-radius: 6px;
-
-    line-height: 1.8;
-
+/* 選項標籤 (Radio 區塊) */
+.option-label {
+    background-color: #d8f3ef;
+    padding: 10px 16px;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 5px 5px 5px 0;
+    cursor: pointer;
 }
 
-
-
-/* =========================
-   手機版
-========================= */
-
-@media (max-width: 600px) {
-
-    .container {
-
-        width: 92%;
-
-        margin: 25px auto;
-
-    }
-
-
-    .topic-box label {
-
-        display: block;
-
-        margin-bottom: 15px;
-
-    }
-
-
-    .main-btn {
-
-        width: 100%;
-
-    }
-
+.option-label:hover {
+    background-color: #c2ede8;
 }

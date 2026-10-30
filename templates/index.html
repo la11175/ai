@@ -1,334 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>AI 程式練習助手</title>
-
-    <!-- 連接 Flask 的 CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 程式練習介面</title>
+    <!-- 引入外部 CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
-
 <body>
-
     <div class="container">
-
-        <!-- 網頁標題 -->
         <h1>AI 程式練習助手</h1>
-
-        <p class="description">
-            選擇一個你想練習的程式設計主題，讓 AI 幫你出題！
-        </p>
-
-
-        <!-- 選擇主題 -->
-    <form method="POST">
-        <div class="topic-box">
-
-            <h2>選擇學習主題</h2>
-
-
-            <label>
-                <input
-                    type="radio"
-                    name="topic"
-                    value="輸入輸出">
-
-                輸入輸出
-            </label>
-
-
-            <label>
-                <input
-                    type="radio"
-                    name="topic"
-                    value="條件判斷">
-
-                條件判斷
-            </label>
-
-
-            <label>
-                <input
-                    type="radio"
-                    name="topic"
-                    value="迴圈">
-
-                迴圈
-            </label>
-
-
-            <label>
-                <input
-                    type="radio"
-                    name="topic"
-                    value="串列">
-
-                串列
-            </label>
-
-
-            <!-- 出題按鈕 -->
-            <button
-                id="questionBtn"
-                class="main-btn"
-                type="submit"
-                name="action"
-                value="generate">
-                幫我出題
-
-            </button>
-<p>目前選擇的主題：{{ topic }}</p>
-
-        </div>
-
-
-
-        <!-- AI 出題 -->
-        <!-- AI 出題 -->
-        <div class="card">
-
-            <h2>🤖 AI 出題</h2>
-
-            <div
-                id="question"
-                class="question">
-
-                {{ question_text }}
-
+        <p>這是一個用於練習程式設計的 AI 助手。請選擇學習主題，然後點擊「幫我出題」按鈕，AI 將會為您生成一個練習題目。</p>
+        
+        <!-- 第一個表單：選擇學習主題並出題 -->
+        <h3>請輸入選擇的學習主題：</h3>
+        <form method="post">
+            <div class="topics">
+                <label class="option-label">
+                    <input type="radio" name="topic" value="輸入輸出" {% if topic == "輸入輸出" %}checked{% endif %}> 輸入輸出
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="topic" value="條件判斷" {% if topic == "條件判斷" %}checked{% endif %}> 條件判斷
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="topic" value="迴圈" {% if topic == "迴圈" %}checked{% endif %}> 迴圈
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="topic" value="串列" {% if topic == "串列" %}checked{% endif %}> 串列
+                </label>
             </div>
+            <!-- 出題按鈕 -->
+            <button type="submit" class="btn" name="action" value="generate">幫我出題</button>
+        </form>
 
-            <!-- 把表單放進同一個 card 裡面 -->
-            {% if topic == "輸入輸出" %}
+        {% if topic %}
+        <p style="margin-top: 15px; color: #555;">目前選擇的主題：{{ topic }}</p>
+        {% endif %}
+
+        <!-- AI 出題與作答區塊 -->
+        <div class="card">
+            <h3>AI 出題：</h3>
+            <p>{{ question_text }}</p>
+
+            <!-- 只有當後端有傳入 question_data（AI 題目）時才顯示選項與提交按鈕 -->
+            {% if question_data %}
             <form method="POST">
+                <!-- 隱藏欄位，提交時保留目前的學習主題 -->
                 <input type="hidden" name="topic" value="{{ topic }}">
                 
-                <label>
-                    <input type="radio" name="student_answer" value="A">
-                    A. input()
-                </label>
-                <label>
-                    <input type="radio" name="student_answer" value="B">
-                    B. print()
-                </label>
-                <label>
-                    <input type="radio" name="student_answer" value="C">
-                    C. len()
-                </label>
-                <label>
-                    <input type="radio" name="student_answer" value="D">
-                    D. range()
-                </label>
+                <div style="margin: 15px 0;">
+                    <!-- 顯示 Gemini AI 產生的四個選項內容 -->
+                    <label class="option-label" style="display: block; margin-bottom: 8px;">
+                        <input type="radio" name="student_answer" value="A"> A. {{ question_data["A"] }}
+                    </label>
+                    <label class="option-label" style="display: block; margin-bottom: 8px;">
+                        <input type="radio" name="student_answer" value="B"> B. {{ question_data["B"] }}
+                    </label>
+                    <label class="option-label" style="display: block; margin-bottom: 8px;">
+                        <input type="radio" name="student_answer" value="C"> C. {{ question_data["C"] }}
+                    </label>
+                    <label class="option-label" style="display: block; margin-bottom: 8px;">
+                        <input type="radio" name="student_answer" value="D"> D. {{ question_data["D"] }}
+                    </label>
+                </div>
 
-                <button type="submit" class="min-btn" name="action" value="check">提交答案</button>
+                <!-- 提交答案按鈕 -->
+                <button type="submit" class="btn" name="action" value="check">提交答案</button>
             </form>
             {% endif %}
-
-        </div> <!-- 這裡放卡片的結束標籤 -->
-
-
-
-        <!-- AI 回饋 -->
-        <div class="card">
-
-            <h2>💡 AI 回饋</h2>
-
-            <div
-                id="feedback"
-                class="feedback">
-
-                {% if feedback %}
-                    <p>{{ feedback }}</p>
-                {% else %}
-                    選擇主題後，這裡會顯示 AI 的學習提示。
-                {% endif %}
-
-            </div>
-
         </div>
 
+        <!-- 顯示 AI 回饋結果 -->
+        <div class="card">
+            <h3>AI 回饋：</h3>
+            <p>{% if feedback %}{{ feedback }}{% else %}尚無回饋{% endif %}</p>
+        </div>
     </div>
-
-
-
-    <!-- JavaScript -->
-    <script>
-
-        /*
-         * 不同主題的題目
-         */
-        const questionBank = {
-
-            "輸入輸出": [
-
-                "請寫一個程式，讓使用者輸入姓名，並輸出「你好，XXX！」。",
-
-                "請讓使用者輸入兩個數字，並輸出兩個數字的總和。",
-
-                "請讓使用者輸入自己的年齡，並把年齡輸出在畫面上。"
-
-            ],
-
-
-            "條件判斷": [
-
-                "請讓使用者輸入一個數字，判斷這個數字是正數、負數還是 0。",
-
-                "請讓使用者輸入成績，如果成績大於等於 60 分，就輸出「及格」，否則輸出「不及格」。",
-
-                "請讓使用者輸入年齡，如果年齡大於等於 18 歲，就輸出「成年」，否則輸出「未成年」。"
-
-            ],
-
-
-            "迴圈": [
-
-                "請使用迴圈輸出 1 到 10 的數字。",
-
-                "請使用迴圈計算 1 到 100 的總和。",
-
-                "請使用迴圈輸出 1 到 20 之間的偶數。"
-
-            ],
-
-
-            "串列": [
-
-                "請建立一個包含 5 個水果名稱的串列，並把所有水果輸出。",
-
-                "請建立一個數字串列，並找出其中最大的數字。",
-
-                "請建立一個包含 5 個數字的串列，並計算所有數字的總和。"
-
-            ]
-
-        };
-
-
-
-        /*
-         * AI 回饋
-         */
-        const feedbackBank = {
-
-            "輸入輸出":
-                "提示：可以先使用 input 取得使用者輸入，再使用 print 輸出結果。",
-
-
-            "條件判斷":
-                "提示：可以使用 if、elif、else 來判斷不同的條件。",
-
-
-            "迴圈":
-                "提示：可以使用 for 或 while 迴圈重複執行程式。",
-
-
-            "串列":
-                "提示：可以使用 list 儲存多個資料，也可以搭配 for 迴圈逐一處理。"
-
-        };
-
-
-
-        /*
-         * 找到按鈕
-         */
-        const questionBtn =
-            document.getElementById("questionBtn");
-
-
-
-        /*
-         * 按下「幫我出題」
-         */
-        questionBtn.addEventListener("click", function () {
-
-
-            /*
-             * 找出使用者選擇的主題
-             */
-            const selectedTopic =
-                document.querySelector(
-                    'input[name="topic"]:checked'
-                );
-
-
-
-            /*
-             * 如果沒有選擇主題
-             */
-            if (!selectedTopic) {
-
-                document.getElementById("question").innerHTML =
-                    "⚠️ 請先選擇一個學習主題！";
-
-
-                document.getElementById("feedback").innerHTML =
-                    "請從上面的四個主題中選擇一個。";
-
-
-                return;
-            }
-
-
-
-            /*
-             * 取得主題
-             */
-            const topic =
-                selectedTopic.value;
-
-
-
-            /*
-             * 取得這個主題的題目
-             */
-            const questions =
-                questionBank[topic];
-
-
-
-            /*
-             * 隨機選擇題目
-             */
-            const randomIndex =
-                Math.floor(
-                    Math.random() * questions.length
-                );
-
-
-
-            const randomQuestion =
-                questions[randomIndex];
-
-
-
-            /*
-             * 顯示題目
-             */
-            document.getElementById("question").innerHTML =
-                "<strong>主題：</strong>" +
-                topic +
-                "<br><br>" +
-                randomQuestion;
-
-
-
-            /*
-             * 顯示 AI 回饋
-             */
-            document.getElementById("feedback").innerHTML =
-                feedbackBank[topic];
-
-        });
-
-    </script>
-
 </body>
-
 </html>
